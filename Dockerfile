@@ -42,7 +42,6 @@ RUN dnf install -y -q \
         perl \
         perl-Digest-SHA
 
-
 RUN git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.7.1 && \
         echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.bashrc && \
         echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc && \
