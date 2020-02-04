@@ -10,9 +10,9 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-RUN dnf install -y \
+RUN dnf update \
+        dnf install -y \
         epel-release \
-        upgrade
 
 RUN dnf --enablerepo="epel" install -y \
         glibc-locale-source \
