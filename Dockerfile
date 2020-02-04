@@ -11,7 +11,8 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN dnf install -y \
-        epel-release
+        epel-release \
+        upgrade
 
 RUN dnf --enablerepo="epel" install -y \
         glibc-locale-source \
@@ -28,7 +29,7 @@ RUN dnf --enablerepo="epel" install -y \
         unzip \
         curl \
         wget \
-        git \
+        git
 
 RUN dnf groupinstall -y "Development Tools"
 RUN dnf install -y -q \
@@ -41,6 +42,7 @@ RUN dnf install -y -q \
         perl \
         perl-Digest-SHA
 
+RUN dnf clean all
 
 RUN git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.7.1 && \
         echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.bashrc && \
