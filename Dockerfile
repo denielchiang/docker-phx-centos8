@@ -5,14 +5,9 @@ ENV ELIXIR_VER 1.10.0
 ENV NODE_VER 13.7.0
 ENV PHX_VER 1.4.12
 
-# Set the locale(en_US.UTF-8)
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
 RUN dnf update && \
         dnf install -y \
-        epel-release \
+        epel-release
 
 RUN dnf --enablerepo="epel" install -y \
         glibc-locale-source \
@@ -27,11 +22,16 @@ RUN dnf --enablerepo="epel" install -y \
         libtool \
         unixODBC-devel \
         unzip \
-        curl \
         wget \
         git
 
-RUN dnf groupinstall -y "Development Tools"
+# Set the locale(en_US.UTF-8)
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+RUN dnf group install -y "Development Tools"
+
 RUN dnf install -y -q \
         libxslt \
         java-1.8.0-openjdk-devel \
@@ -42,7 +42,6 @@ RUN dnf install -y -q \
         perl \
         perl-Digest-SHA
 
-RUN dnf clean all
 
 RUN git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.7.1 && \
         echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.bashrc && \
