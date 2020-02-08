@@ -5,10 +5,12 @@ ENV ELIXIR_VER 1.10.0
 ENV NODE_VER 13.7.0
 ENV PHX_VER 1.4.12
 
-RUN dnf update && \
+# Instaall EPEL
+RUN dnf update -y && \
         dnf install -y \
         epel-release
 
+# Install Plugin Dependencies for asdf-vm
 RUN dnf --enablerepo="epel" install -y \
         glibc-locale-source \
         glibc-langpack-en \
@@ -30,8 +32,10 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+# Install build tools for asdf-erlang
 RUN dnf group install -y "Development Tools"
 
+# Install Plug Dependencies for asdf-erlang
 RUN dnf install -y -q \
         libxslt \
         java-1.8.0-openjdk-devel \
@@ -42,6 +46,7 @@ RUN dnf install -y -q \
         perl \
         perl-Digest-SHA
 
+# Setting asdf and install erlang/elixir/nodejs
 RUN git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.7.1 && \
         echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.bashrc && \
         echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc && \
@@ -62,5 +67,7 @@ RUN git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.7.1 
         yes | mix local.hex && \
         yes | mix local.rebar && \
         yes | mix archive.install hex phx_new $PHX_VER
+
+RUN dnf autoremove -y
 
 WORKDIR /app
